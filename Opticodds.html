@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpticOdds Explorer</title>
+    <title>OpticOdds Explorer - Complete</title>
     <style>
         * {
             margin: 0;
@@ -17,11 +17,13 @@
             min-height: 100vh;
             padding: 20px;
             font-size: 13px;
+            overflow-x: hidden;
         }
         
         .container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
+            overflow-x: hidden;
         }
         
         .header {
@@ -33,6 +35,97 @@
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        /* MAIN TABS */
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px 30px;
+            background: transparent;
+            color: white;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #1e3c72;
+            border-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        /* SUB-TABS (dentro de Advanced) */
+        .sub-tabs-container {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .sub-tab-button {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .sub-tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .sub-tab-button.active {
+            background: #1e3c72;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .sub-tab-content {
+            display: none;
+        }
+
+        .sub-tab-content.active {
+            display: block;
         }
         
         .breadcrumb {
@@ -61,14 +154,6 @@
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 20px;
-        }
-        
-        body {
-            overflow-x: hidden;
-        }
-        
-        .container {
-            overflow-x: hidden;
         }
         
         .panel {
@@ -230,90 +315,88 @@
         }
         
         .error {
-            background: #ff4444;
-            color: white;
-            padding: 15px;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
             border-radius: 8px;
-            margin: 10px 0;
+            margin: 20px;
+            border: 1px solid #f5c6cb;
         }
         
         .empty {
             text-align: center;
-            padding: 40px;
+            padding: 30px;
             color: #999;
+            font-style: italic;
         }
         
         .badge {
-            display: inline-block;
+            background: #1e3c72;
+            color: white;
             padding: 2px 6px;
-            background: #e9ecef;
-            border-radius: 10px;
-            font-size: 11px;
+            border-radius: 4px;
+            font-size: 10px;
             margin-right: 4px;
         }
         
-        .item.active .badge {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Modal/Popup */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-        }
-        
-        .modal.active {
-            display: flex;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
             align-items: center;
             justify-content: center;
         }
         
+        .modal.active {
+            display: flex;
+        }
+        
         .modal-content {
             background: white;
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 30px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            animation: modalFadeIn 0.3s;
+            position: relative;
         }
         
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
         }
         
-        .modal-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e9ecef;
+        .modal-close:hover {
+            background: #c82333;
         }
         
         .modal-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 8px;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
             overflow: hidden;
             background: #f0f0f0;
-            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .modal-logo img {
@@ -322,51 +405,25 @@
             object-fit: contain;
         }
         
-        .modal-title {
-            flex: 1;
-        }
-        
-        .modal-title h3 {
-            font-size: 20px;
-            font-weight: 600;
+        .modal-player-name {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
             color: #1e3c72;
             margin-bottom: 5px;
         }
         
-        .modal-title p {
-            font-size: 13px;
+        .modal-player-subtitle {
+            text-align: center;
             color: #666;
-        }
-        
-        .modal-close {
-            background: #ff4444;
-            color: white;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            line-height: 1;
-            transition: all 0.2s;
-        }
-        
-        .modal-close:hover {
-            background: #cc0000;
-            transform: rotate(90deg);
-        }
-        
-        .modal-body {
-            display: grid;
-            gap: 12px;
+            margin-bottom: 20px;
         }
         
         .info-row {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
         }
         
         .info-row:last-child {
@@ -375,262 +432,1108 @@
         
         .info-label {
             font-weight: 600;
-            color: #666;
-            font-size: 13px;
+            color: #1e3c72;
         }
         
         .info-value {
             color: #333;
-            font-size: 13px;
         }
-        
-        .reset-btn {
-            background: rgba(255, 255, 255, 0.2);
+
+        /* ADVANCED TAB STYLES */
+        .filters-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #1e3c72;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .filter-group input,
+        .filter-group select,
+        .filter-group textarea {
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus,
+        .filter-group textarea:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        .btn-primary {
+            background: #1e3c72;
             color: white;
-            border: 2px solid white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #2a5298;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
             padding: 8px 16px;
             border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .fixture-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .fixture-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .fixture-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .fixture-teams {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .team {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .team-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .team-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .team-name {
+            font-weight: 600;
+            color: #1e3c72;
+            font-size: 14px;
+        }
+
+        .vs-separator {
+            font-weight: bold;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .fixture-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .fixture-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .fixture-status {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-unplayed {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-live {
+            background: #d4edda;
+            color: #155724;
+            animation: pulse 2s infinite;
+        }
+
+        .status-completed, .status-complete {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .fixture-info {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            color: #666;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .fixture-info-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .odds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .odds-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            transition: all 0.2s;
+        }
+
+        .odds-card:hover {
+            border-color: #1e3c72;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .odds-sportsbook {
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .odds-market {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .odds-selection {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        .odds-selection-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .odds-price {
+            background: #28a745;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .odds-price.negative {
+            background: #dc3545;
+        }
+
+        .sportsbook-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sportsbook-chip {
+            padding: 8px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-size: 12px;
             font-weight: 600;
             transition: all 0.2s;
         }
-        
-        .reset-btn:hover {
+
+        .sportsbook-chip:hover {
+            border-color: #1e3c72;
+        }
+
+        .sportsbook-chip.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+
+        .back-button {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            background: #5a6268;
+        }
+
+        /* Results Styles */
+        .result-card {
             background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-score {
+            font-size: 24px;
+            font-weight: bold;
             color: #1e3c72;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .score-team {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .score-team.winner {
+            background: #d4edda;
+            border: 2px solid #28a745;
+        }
+
+        /* Grader Styles */
+        .grader-result {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 3px solid #e9ecef;
+        }
+
+        .grader-result.win {
+            border-color: #28a745;
+            background: #f0fff4;
+        }
+
+        .grader-result.loss {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .grader-result.push {
+            border-color: #ffc107;
+            background: #fffbf0;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .result-badge.win {
+            background: #28a745;
+            color: white;
+        }
+
+        .result-badge.loss {
+            background: #dc3545;
+            color: white;
+        }
+
+        .result-badge.push {
+            background: #ffc107;
+            color: #333;
+        }
+
+        /* Futures Styles */
+        .futures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .future-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .future-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+
+        .future-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .future-option:hover {
+            background: #e9ecef;
+        }
+
+        .future-option.best {
+            border: 2px solid #28a745;
+            background: #f0fff4;
+        }
+
+        /* Parlay Builder Styles */
+        .parlay-selections {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .selection-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 2px solid transparent;
+        }
+
+        .selection-item:hover {
+            border-color: #1e3c72;
+        }
+
+        .parlay-calculator {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 3px solid #1e3c72;
+        }
+
+        .parlay-odds-display {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e3c72;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .payout-calculator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .calc-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .calc-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .calc-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+
+        /* Live Stream Styles */
+        .live-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #d4edda;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .live-indicator {
+            width: 12px;
+            height: 12px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .odds-update {
+            padding: 10px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .odds-change-up {
+            color: #28a745;
+            font-weight: 700;
+        }
+
+        .odds-change-down {
+            color: #dc3545;
+            font-weight: 700;
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gap-10 {
+            gap: 10px;
+        }
+
+        .success-text {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .error-text {
+            color: #dc3545;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏆 OpticOdds Explorer</h1>
-            <p>Explore sports, leagues, markets and more</p>
+            <h1>⚡ OpticOdds Explorer</h1>
+            <p>Complete Sports Betting Data Platform</p>
         </div>
-        
-        <div class="breadcrumb" id="breadcrumb">
-            <span>📍 Home</span>
-        </div>
-        
-        <div class="grid" id="mainGrid"></div>
-    </div>
 
-    <!-- Modal for player details -->
-    <div class="modal" id="playerModal" onclick="if(event.target === this) closePlayerModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-logo" id="modalLogo"></div>
-                <div class="modal-title">
-                    <h3 id="modalPlayerName"></h3>
-                    <p id="modalPlayerSubtitle"></p>
-                </div>
-                <button class="modal-close" onclick="closePlayerModal()">×</button>
+        <!-- MAIN TABS -->
+        <div class="tabs-container">
+            <button class="tab-button active" onclick="switchMainTab('base')">
+                📊 BASE
+            </button>
+            <button class="tab-button" onclick="switchMainTab('advanced')">
+                🚀 ADVANCED
+            </button>
+        </div>
+
+        <!-- BASE TAB CONTENT -->
+        <div id="base-tab" class="tab-content active">
+            <div class="breadcrumb" id="breadcrumb">
+                <span>🏠 Home</span>
             </div>
-            <div class="modal-body" id="modalBody"></div>
+
+            <div class="grid" id="mainGrid">
+                <div class="loading">Loading sports data</div>
+            </div>
+        </div>
+
+        <!-- ADVANCED TAB CONTENT -->
+        <div id="advanced-tab" class="tab-content">
+            
+            <!-- SUB-TABS -->
+            <div class="sub-tabs-container">
+                <button class="sub-tab-button active" onclick="switchAdvancedSection('fixtures')">
+                    🎯 Fixtures & Odds
+                </button>
+                <button class="sub-tab-button" onclick="switchAdvancedSection('results')">
+                    📊 Results & Grader
+                </button>
+                <button class="sub-tab-button" onclick="switchAdvancedSection('futures')">
+                    🔮 Futures & Outrights
+                </button>
+                <button class="sub-tab-button" onclick="switchAdvancedSection('parlay')">
+                    🎲 Parlay Builder
+                </button>
+                <button class="sub-tab-button" onclick="switchAdvancedSection('stream')">
+                    🔴 Live Stream
+                </button>
+            </div>
+
+            <!-- FIXTURES & ODDS SECTION -->
+            <div id="adv-fixtures" class="sub-tab-content active">
+                <div class="filters-panel">
+                    <h2 style="margin-bottom: 20px; color: #1e3c72;">🔍 Search Fixtures</h2>
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>Sport *</label>
+                            <select id="adv-sport">
+                                <option value="">Select Sport</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>League *</label>
+                            <select id="adv-league">
+                                <option value="">Select League</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Start Date After (Optional)</label>
+                            <input type="datetime-local" id="adv-date-after">
+                        </div>
+                        <div class="filter-group">
+                            <label>Start Date Before (Optional)</label>
+                            <input type="datetime-local" id="adv-date-before">
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="searchFixtures()">
+                        🔎 Search Fixtures
+                    </button>
+                </div>
+
+                <div id="fixtures-container">
+                    <div class="empty">Select sport and league, then click Search to view fixtures</div>
+                </div>
+
+                <div id="odds-container" style="display: none;">
+                    <button class="back-button" onclick="backToFixtures()">← Back to Fixtures</button>
+                    <div id="odds-content"></div>
+                </div>
+            </div>
+
+            <!-- RESULTS & GRADER SECTION -->
+            <div id="adv-results" class="sub-tab-content">
+                <div class="filters-panel">
+                    <h2 style="margin-bottom: 20px; color: #1e3c72;">📊 Search Results & Grade Bets</h2>
+                    
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>Sport *</label>
+                            <select id="results-sport">
+                                <option value="">Select Sport</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>League *</label>
+                            <select id="results-league">
+                                <option value="">Select League</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="searchCompletedFixtures()">
+                        🔎 Search Completed Fixtures
+                    </button>
+                </div>
+
+                <div id="results-fixtures-container">
+                    <div class="empty">Select sport and league to view completed fixtures</div>
+                </div>
+
+                <!-- Grader Section -->
+                <div id="grader-section" style="display: none;">
+                    <button class="back-button" onclick="backToResults()">← Back to Results</button>
+                    
+                    <div class="filters-panel">
+                        <h2 style="margin-bottom: 20px; color: #1e3c72;">🎯 Grade Your Bet</h2>
+                        
+                        <div class="filter-group mb-20">
+                            <label>Market *</label>
+                            <input type="text" id="grader-market" placeholder="e.g., Moneyline, Spread, Total">
+                        </div>
+
+                        <div class="filter-group mb-20">
+                            <label>Selection/Name *</label>
+                            <input type="text" id="grader-name" placeholder="e.g., Team Name, Over 45.5">
+                        </div>
+
+                        <div class="filter-group mb-20">
+                            <label>Player ID (Optional, for player props)</label>
+                            <input type="text" id="grader-player-id" placeholder="Player ID">
+                        </div>
+
+                        <button class="btn-primary" onclick="gradeBet()">
+                            ✅ Grade Bet
+                        </button>
+                    </div>
+
+                    <div id="grader-result-container"></div>
+                </div>
+            </div>
+
+            <!-- FUTURES & OUTRIGHTS SECTION -->
+            <div id="adv-futures" class="sub-tab-content">
+                <div class="filters-panel">
+                    <h2 style="margin-bottom: 20px; color: #1e3c72;">🔮 Futures & Outrights</h2>
+                    
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>Sport *</label>
+                            <select id="futures-sport">
+                                <option value="">Select Sport</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>League *</label>
+                            <select id="futures-league">
+                                <option value="">Select League</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="searchFutures()">
+                        🔎 Search Futures
+                    </button>
+                </div>
+
+                <div id="futures-container">
+                    <div class="empty">Select sport and league to view futures markets</div>
+                </div>
+            </div>
+
+            <!-- PARLAY BUILDER SECTION -->
+            <div id="adv-parlay" class="sub-tab-content">
+                <div class="filters-panel">
+                    <h2 style="margin-bottom: 20px; color: #1e3c72;">🎲 Parlay Builder</h2>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        Add selections to your parlay and calculate combined odds across multiple sportsbooks.
+                    </p>
+                </div>
+
+                <div class="flex-between mb-20">
+                    <h3 style="color: #1e3c72;">Your Selections (<span id="parlay-count">0</span>)</h3>
+                    <button class="btn-danger" onclick="clearParlay()">Clear All</button>
+                </div>
+
+                <div class="parlay-selections" id="parlay-selections">
+                    <div class="empty">Add selections from Fixtures & Odds section</div>
+                </div>
+
+                <div id="parlay-calculator-section" style="display: none;">
+                    <div class="filters-panel">
+                        <h3 style="margin-bottom: 15px; color: #1e3c72;">Calculate Parlay Odds</h3>
+                        
+                        <div class="filter-group mb-20">
+                            <label>Sportsbooks (select one or more)</label>
+                            <div id="parlay-sportsbooks-select" class="sportsbook-filter">
+                                <!-- Will be populated dynamically -->
+                            </div>
+                        </div>
+
+                        <button class="btn-primary" onclick="calculateParlay()">
+                            🧮 Calculate Parlay
+                        </button>
+                    </div>
+
+                    <div id="parlay-results-container"></div>
+                </div>
+            </div>
+
+            <!-- LIVE STREAM SECTION -->
+            <div id="adv-stream" class="sub-tab-content">
+                <div class="filters-panel">
+                    <h2 style="margin-bottom: 20px; color: #1e3c72;">🔴 Live Odds & Results Stream</h2>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        Real-time odds updates via Server-Sent Events (SSE). Select fixtures to monitor.
+                    </p>
+
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>Sport *</label>
+                            <select id="stream-sport">
+                                <option value="">Select Sport</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>League</label>
+                            <select id="stream-league">
+                                <option value="">All Leagues</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Sportsbook</label>
+                            <select id="stream-sportsbook">
+                                <option value="">All Sportsbooks</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Market</label>
+                            <select id="stream-market">
+                                <option value="">All Markets</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-10 mt-20">
+                        <button class="btn-primary" onclick="startStream()">
+                            ▶️ Start Stream
+                        </button>
+                        <button class="btn-danger" onclick="stopStream()">
+                            ⏹️ Stop Stream
+                        </button>
+                    </div>
+                </div>
+
+                <div id="stream-status" style="display: none;" class="live-status">
+                    <div class="live-indicator"></div>
+                    <span><strong>🔴 LIVE</strong> - Receiving real-time updates</span>
+                </div>
+
+                <div class="live-container" id="stream-container">
+                    <div class="empty">Configure filters and click "Start Stream" to begin monitoring</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Player Modal (for Base tab) -->
+        <div id="playerModal" class="modal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closePlayerModal()">×</button>
+                <div class="modal-logo" id="modalLogo"></div>
+                <div class="modal-player-name" id="modalPlayerName"></div>
+                <div class="modal-player-subtitle" id="modalPlayerSubtitle"></div>
+                <div id="modalBody"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Cambia según dónde uses el HTML:
-        // - Local: usa la URL directa sin proxy
-        // - Claude.ai: usa con proxy
-        const API_URL = 'https://opticodds-backend.onrender.com';
+        const API_BASE = 'https://opticodds-backend.onrender.com';
         
-        console.log('🚀 Conectando a API:', API_URL);
-        
-        const state = {
-            selectedSport: null,
-            selectedLeague: null,
-            selectedTeam: null,
+        // State for Base tab
+        const baseState = {
             sports: [],
             leagues: [],
             markets: [],
             futures: [],
             teams: [],
-            players: []
+            players: [],
+            selectedSport: null,
+            selectedLeague: null,
+            selectedTeam: null
         };
+
+        // State for Advanced tab
+        const advancedState = {
+            currentSection: 'fixtures',
+            sports: [],
+            leagues: [],
+            sportsbooks: [],
+            fixtures: [],
+            currentFixture: null,
+            selectedOdds: [],
+            selectedSportsbooks: [],
+            completedFixtures: [],
+            futuresData: [],
+            parlaySelections: [],
+            streamConnection: null,
+            streamActive: false
+        };
+
+        // Current active tab
+        let currentMainTab = 'base';
+
+        // ==========================================
+        // MAIN TAB SWITCHING
+        // ==========================================
+        
+        function switchMainTab(tab) {
+            currentMainTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tab}-tab`).classList.add('active');
+            
+            // Initialize tab if needed
+            if (tab === 'base' && baseState.sports.length === 0) {
+                loadBaseSports();
+            } else if (tab === 'advanced' && advancedState.sports.length === 0) {
+                loadAdvancedData();
+            }
+        }
+
+        function switchAdvancedSection(section) {
+            advancedState.currentSection = section;
+            
+            // Update sub-tab buttons
+            document.querySelectorAll('.sub-tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update sub-tab content
+            document.querySelectorAll('.sub-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`adv-${section}`).classList.add('active');
+            
+            // Initialize section if needed
+            initializeAdvancedSection(section);
+        }
+
+        function initializeAdvancedSection(section) {
+            switch(section) {
+                case 'results':
+                    if (!advancedState.sports.length) loadAdvancedData();
+                    populateResultsFilters();
+                    break;
+                case 'futures':
+                    if (!advancedState.sports.length) loadAdvancedData();
+                    populateFuturesFilters();
+                    break;
+                case 'parlay':
+                    loadParlaySection();
+                    break;
+                case 'stream':
+                    if (!advancedState.sports.length) loadAdvancedData();
+                    populateStreamFilters();
+                    break;
+            }
+        }
+
+        // ==========================================
+        // UTILITY FUNCTIONS
+        // ==========================================
         
         async function fetchAPI(endpoint) {
-            console.log('📡 Llamando a:', `${API_URL}${endpoint}`);
-            const response = await fetch(`${API_URL}${endpoint}`);
+            const response = await fetch(`${API_BASE}${endpoint}`);
             if (!response.ok) {
-                console.error('❌ Error en respuesta:', response.status);
-                throw new Error(`Error ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const data = await response.json();
-            console.log('✅ Datos recibidos:', data);
-            return data;
+            return await response.json();
         }
-        
-        function updateBreadcrumb() {
-            const breadcrumb = document.getElementById('breadcrumb');
-            let html = '<span>📍 Home</span>';
-            
-            if (state.selectedSport) {
-                const sportIcon = getSportIcon(state.selectedSport);
-                html += '<span class="separator">→</span>';
-                html += `<span>${sportIcon} ${state.selectedSport}</span>`;
+
+        async function postAPI(endpoint, data) {
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
-            if (state.selectedLeague) {
-                html += '<span class="separator">→</span>';
-                html += `<span>🏆 ${state.selectedLeague}</span>`;
-            }
-            
-            if (state.selectedTeam) {
-                const teamLogo = state.teams.find(t => (t.name || t.team_name) === state.selectedTeam)?.logo || '';
-                const teamIcon = teamLogo ? `<img src="${teamLogo}" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;" onerror="this.style.display='none'">` : '👥';
-                html += '<span class="separator">→</span>';
-                html += `<span>${teamIcon} ${state.selectedTeam}</span>`;
-            }
-            
-            if (state.selectedSport || state.selectedLeague || state.selectedTeam) {
-                html += '<button class="reset-btn" onclick="reset()">🔄 Reset</button>';
-            }
-            
-            breadcrumb.innerHTML = html;
+            return await response.json();
         }
-        
-        function getSportIcon(sportName) {
-            const icons = {
-                'Soccer': '⚽',
-                'Football': '⚽',
-                'Basketball': '🏀',
-                'Baseball': '⚾',
-                'Hockey': '🏒',
-                'Tennis': '🎾',
-                'Cricket': '🏏',
-                'Rugby': '🏉',
-                'Golf': '⛳',
-                'Boxing': '🥊',
-                'MMA': '🥊'
-            };
-            
-            for (let key in icons) {
-                if (sportName.toLowerCase().includes(key.toLowerCase())) {
-                    return icons[key];
-                }
-            }
-            
-            return '🏅';
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
         }
-        
-        function reset() {
-            state.selectedSport = null;
-            state.selectedLeague = null;
-            state.selectedTeam = null;
-            state.leagues = [];
-            state.markets = [];
-            state.futures = [];
-            state.teams = [];
-            state.players = [];
-            render();
+
+        function extractData(data) {
+            return Array.isArray(data) ? data : 
+                   Array.isArray(data?.data) ? data.data : 
+                   typeof data === 'object' ? Object.values(data) : [];
         }
+
+        // ==========================================
+        // BASE TAB FUNCTIONS
+        // ==========================================
         
-        async function loadSports() {
-            console.log('🏅 Loading sports...');
+        async function loadBaseSports() {
             try {
                 const data = await fetchAPI('/api/v3/sports');
-                console.log('📦 Response type:', typeof data, data);
-                
-                if (Array.isArray(data)) {
-                    state.sports = data;
-                } else if (data && Array.isArray(data.data)) {
-                    state.sports = data.data;
-                } else if (data && typeof data === 'object') {
-                    state.sports = Object.values(data);
-                } else {
-                    state.sports = [];
-                }
-                
-                console.log('🎉 Sports loaded:', state.sports.length);
-                render();
+                baseState.sports = extractData(data);
+                renderBase();
             } catch (error) {
-                console.error('💥 Error loading sports:', error);
-                showError('Error loading sports: ' + error.message);
+                showBaseError('Error loading sports: ' + error.message);
             }
         }
-        
-        async function selectSport(sportKey, sportTitle) {
-            state.selectedSport = sportTitle;
-            state.selectedLeague = null;
-            state.selectedTeam = null;
-            
-            console.log('🏆 Loading leagues for sport:', sportKey);
+
+        async function selectBaseSport(sportKey, sportTitle) {
+            baseState.selectedSport = sportTitle;
+            baseState.selectedLeague = null;
+            baseState.selectedTeam = null;
             
             try {
                 const data = await fetchAPI(`/api/v3/leagues?sport=${sportKey}`);
-                console.log('📦 Leagues received:', data);
-                
-                if (Array.isArray(data)) {
-                    state.leagues = data;
-                } else if (data && Array.isArray(data.data)) {
-                    state.leagues = data.data;
-                } else if (data && typeof data === 'object') {
-                    state.leagues = Object.values(data);
-                } else {
-                    state.leagues = [];
-                }
-                
-                console.log('✅ Total leagues:', state.leagues.length);
-                render();
+                baseState.leagues = extractData(data);
+                renderBase();
             } catch (error) {
-                console.error('❌ Error loading leagues:', error);
-                showError('Error loading leagues: ' + error.message);
+                showBaseError('Error loading leagues: ' + error.message);
             }
         }
-        
-        async function selectLeague(leagueKey, leagueTitle, sportKey) {
-            state.selectedLeague = leagueTitle;
-            state.selectedTeam = null;
+
+        async function selectBaseLeague(leagueKey, leagueTitle, sportKey) {
+            baseState.selectedLeague = leagueTitle;
+            baseState.selectedTeam = null;
             
             try {
                 const [marketsData, futuresData, teamsData] = await Promise.all([
-                    fetchAPI(`/api/v3/markets?sport=${sportKey}&league=${leagueKey}`),
+                    fetchAPI(`/api/v3/markets?leagues=${leagueKey}&sport=${sportKey}`),
                     fetchAPI(`/api/v3/futures?league=${leagueKey}`),
                     fetchAPI(`/api/v3/teams?league=${leagueKey}`)
                 ]);
                 
-                state.markets = Array.isArray(marketsData) ? marketsData : 
-                               Array.isArray(marketsData?.data) ? marketsData.data : 
-                               typeof marketsData === 'object' ? Object.values(marketsData) : [];
-                               
-                state.futures = Array.isArray(futuresData) ? futuresData : 
-                               Array.isArray(futuresData?.data) ? futuresData.data : 
-                               typeof futuresData === 'object' ? Object.values(futuresData) : [];
-                               
-                state.teams = Array.isArray(teamsData) ? teamsData : 
-                             Array.isArray(teamsData?.data) ? teamsData.data : 
-                             typeof teamsData === 'object' ? Object.values(teamsData) : [];
+                baseState.markets = extractData(marketsData);
+                baseState.futures = extractData(futuresData);
+                baseState.teams = extractData(teamsData);
                 
-                render();
+                renderBase();
             } catch (error) {
-                showError('Error loading league data: ' + error.message);
+                showBaseError('Error loading league data: ' + error.message);
             }
         }
-        
-        async function selectTeam(teamId, teamName, leagueKey) {
-            state.selectedTeam = teamName;
-            
-            console.log('⚽ Loading players for team:', teamId, 'league:', leagueKey);
+
+        async function selectBaseTeam(teamId, teamName, leagueKey) {
+            baseState.selectedTeam = teamName;
             
             try {
                 const data = await fetchAPI(`/api/v3/players?league=${leagueKey}&team_id=${teamId}`);
-                console.log('📦 Players received:', data);
-                
-                state.players = Array.isArray(data) ? data : 
-                               Array.isArray(data?.data) ? data.data : 
-                               typeof data === 'object' ? Object.values(data) : [];
-                
-                console.log('✅ Total players:', state.players.length);
-                render();
+                baseState.players = extractData(data);
+                renderBase();
             } catch (error) {
-                console.error('❌ Error loading players:', error);
-                showError('Error loading players: ' + error.message);
+                showBaseError('Error loading players: ' + error.message);
             }
         }
-        
-        function createPanel(title, content, icon = '📋', count = 0, dataType = '') {
+
+        function createBasePanel(title, content, icon = '📋', count = 0, dataType = '') {
             return `
                 <div class="panel">
                     <h2>
@@ -638,22 +1541,19 @@
                             ${icon} ${title}
                             ${count > 0 ? `<span class="counter-badge">${count}</span>` : ''}
                         </div>
-                        ${count > 0 ? `<button class="copy-btn" onclick="copyToClipboard('${dataType}')">📋</button>` : ''}
+                        ${count > 0 ? `<button class="copy-btn" onclick="copyToClipboard('${dataType}', event)">📋</button>` : ''}
                     </h2>
                     <div class="panel-content">${content}</div>
                 </div>
             `;
         }
-        
-        function renderSports() {
-            if (!state.sports || state.sports.length === 0) {
+
+        function renderBaseSports() {
+            if (!baseState.sports || baseState.sports.length === 0) {
                 return '<div class="loading">Loading sports</div>';
             }
             
-            console.log('🎨 Rendering', state.sports.length, 'sports');
-            
-            // Ordenar: Soccer primero, luego el resto alfabéticamente
-            const sortedSports = [...state.sports].sort((a, b) => {
+            const sortedSports = [...baseState.sports].sort((a, b) => {
                 const nameA = (a.title || a.name || '').toLowerCase();
                 const nameB = (b.title || b.name || '').toLowerCase();
                 
@@ -668,23 +1568,20 @@
                 const key = sport.key || sport.id || 'unknown';
                 
                 return `
-                    <div class="item" onclick="selectSport('${key}', '${title}')">
+                    <div class="item" onclick="selectBaseSport('${key}', '${title}')">
                         <div class="item-title">${title}</div>
                     </div>
                 `;
             }).join('');
         }
-        
-        function renderLeagues() {
-            if (!state.selectedSport) return '';
-            if (!state.leagues.length) {
+
+        function renderBaseLeagues() {
+            if (!baseState.selectedSport) return '';
+            if (!baseState.leagues.length) {
                 return '<div class="empty">No leagues available</div>';
             }
             
-            console.log('🎨 Rendering leagues. First league:', state.leagues[0]);
-            
-            // Ordenar: UEFA Champions League y FIFA World Cup primero, luego alfabéticamente
-            const sortedLeagues = [...state.leagues].sort((a, b) => {
+            const sortedLeagues = [...baseState.leagues].sort((a, b) => {
                 const nameA = (a.title || a.name || '').toLowerCase();
                 const nameB = (b.title || b.name || '').toLowerCase();
                 
@@ -700,70 +1597,70 @@
             return sortedLeagues.map(league => {
                 const title = league.title || league.name || league.league_name || league.description || 'No name';
                 const key = league.key || league.id || league.league_key || league.league_id || 'unknown';
-                const sport = league.sport || league.sport_key || '';
                 
-                console.log('League processed:', { title, key, sport, original: league });
+                let sport = '';
+                if (typeof league.sport === 'string') {
+                    sport = league.sport;
+                } else if (typeof league.sport === 'object' && league.sport) {
+                    sport = league.sport.key || league.sport.sport_key || league.sport.id || '';
+                } else {
+                    sport = league.sport_key || baseState.selectedSport || '';
+                }
                 
                 return `
-                    <div class="item ${state.selectedLeague === title ? 'active' : ''}" 
-                         onclick="selectLeague('${key}', '${title}', '${sport}')">
+                    <div class="item ${baseState.selectedLeague === title ? 'active' : ''}" 
+                         onclick="selectBaseLeague('${key}', '${title}', '${sport}')">
                         <div class="item-title">${title}</div>
                     </div>
                 `;
             }).join('');
         }
-        
-        function renderMarkets() {
-            if (!state.selectedLeague) return '';
-            if (!state.markets.length) {
+
+        function renderBaseMarkets() {
+            if (!baseState.selectedLeague) return '';
+            if (!baseState.markets.length) {
                 return '<div class="empty">No markets available</div>';
             }
             
-            return state.markets.map(market => `
+            return baseState.markets.map(market => `
                 <div class="item">
                     <div class="item-title">${market.title || market.name || 'Market'}</div>
                     ${market.description ? `<div class="item-subtitle">${market.description}</div>` : ''}
                 </div>
             `).join('');
         }
-        
-        function renderFutures() {
-            if (!state.selectedLeague) return '';
-            if (!state.futures.length) {
+
+        function renderBaseFutures() {
+            if (!baseState.selectedLeague) return '';
+            if (!baseState.futures.length) {
                 return '<div class="empty">No futures available</div>';
             }
             
-            return state.futures.map(future => `
+            return baseState.futures.map(future => `
                 <div class="item">
                     <div class="item-title">${future.title || future.name || 'Future'}</div>
                     ${future.description ? `<div class="item-subtitle">${future.description}</div>` : ''}
                 </div>
             `).join('');
         }
-        
-        function renderTeams() {
-            if (!state.selectedLeague) return '';
-            if (!state.teams.length) {
+
+        function renderBaseTeams() {
+            if (!baseState.selectedLeague) return '';
+            if (!baseState.teams.length) {
                 return '<div class="empty">No teams available</div>';
             }
             
-            const leagueData = state.leagues.find(l => l.title === state.selectedLeague || l.name === state.selectedLeague);
+            const leagueData = baseState.leagues.find(l => l.title === baseState.selectedLeague || l.name === baseState.selectedLeague);
             const leagueKey = leagueData?.key || leagueData?.id || leagueData?.league_key;
             
-            console.log('🔍 Selected league:', state.selectedLeague);
-            console.log('🔍 Found league data:', leagueData);
-            console.log('🔍 League key for teams:', leagueKey);
-            
-            return state.teams.map(team => {
+            return baseState.teams.map(team => {
                 const name = team.name || team.team_name || team.title || 'No name';
                 const teamId = team.id || team.team_id || 'unknown';
                 const logo = team.logo || team.logo_url || team.image || '';
                 
-                console.log('👥 Team:', { name, teamId, leagueKey });
-                
                 return `
-                    <div class="item ${state.selectedTeam === name ? 'active' : ''}" 
-                         onclick="selectTeam('${teamId}', '${name}', '${leagueKey}')">
+                    <div class="item ${baseState.selectedTeam === name ? 'active' : ''}" 
+                         onclick="selectBaseTeam('${teamId}', '${name}', '${leagueKey}')">
                         <div class="item-content">
                             ${logo ? `<div class="logo-container"><img src="${logo}" alt="${name}" onerror="this.style.display='none'"></div>` : ''}
                             <div class="item-title">${name}</div>
@@ -772,14 +1669,14 @@
                 `;
             }).join('');
         }
-        
-        function renderPlayers() {
-            if (!state.selectedTeam) return '';
-            if (!state.players.length) {
+
+        function renderBasePlayers() {
+            if (!baseState.selectedTeam) return '';
+            if (!baseState.players.length) {
                 return '<div class="empty">No players available</div>';
             }
             
-            return state.players.map((player, index) => {
+            return baseState.players.map((player, index) => {
                 const name = player.name || player.full_name || player.player_name || 'Player';
                 const logo = player.logo || player.image || player.photo || player.headshot || '';
                 const position = player.position || player.pos || '';
@@ -801,9 +1698,60 @@
                 `;
             }).join('');
         }
-        
+
+        function updateBaseBreadcrumb() {
+            const breadcrumb = document.getElementById('breadcrumb');
+            let crumbs = ['<span>🏠 Home</span>'];
+            
+            if (baseState.selectedSport) {
+                crumbs.push('<span class="separator">→</span>');
+                crumbs.push(`<span>⚽ ${baseState.selectedSport}</span>`);
+            }
+            
+            if (baseState.selectedLeague) {
+                crumbs.push('<span class="separator">→</span>');
+                crumbs.push(`<span>🏆 ${baseState.selectedLeague}</span>`);
+            }
+            
+            if (baseState.selectedTeam) {
+                crumbs.push('<span class="separator">→</span>');
+                crumbs.push(`<span>👥 ${baseState.selectedTeam}</span>`);
+            }
+            
+            breadcrumb.innerHTML = crumbs.join('');
+        }
+
+        function renderBase() {
+            updateBaseBreadcrumb();
+            const grid = document.getElementById('mainGrid');
+            let panels = [];
+            
+            panels.push(createBasePanel('Sports', renderBaseSports(), '🏅', baseState.sports.length, 'sports'));
+            
+            if (baseState.selectedSport) {
+                panels.push(createBasePanel('Leagues', renderBaseLeagues(), '🏆', baseState.leagues.length, 'leagues'));
+            }
+            
+            if (baseState.selectedLeague) {
+                panels.push(createBasePanel('Markets', renderBaseMarkets(), '📊', baseState.markets.length, 'markets'));
+                panels.push(createBasePanel('Futures', renderBaseFutures(), '🔮', baseState.futures.length, 'futures'));
+                panels.push(createBasePanel('Teams', renderBaseTeams(), '👥', baseState.teams.length, 'teams'));
+            }
+            
+            if (baseState.selectedTeam) {
+                panels.push(createBasePanel('Players', renderBasePlayers(), '⚽', baseState.players.length, 'players'));
+            }
+            
+            grid.innerHTML = panels.join('');
+        }
+
+        function showBaseError(message) {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = `<div class="error">${message}</div>`;
+        }
+
         function openPlayerModal(playerIndex) {
-            const player = state.players[playerIndex];
+            const player = baseState.players[playerIndex];
             if (!player) return;
             
             const modal = document.getElementById('playerModal');
@@ -819,7 +1767,6 @@
             const height = player.height || '';
             const weight = player.weight || '';
             
-            // Logo
             if (logo) {
                 modalLogo.innerHTML = `<img src="${logo}" alt="${name}" onerror="this.parentElement.style.display='none'">`;
                 modalLogo.style.display = 'block';
@@ -827,13 +1774,10 @@
                 modalLogo.style.display = 'none';
             }
             
-            // Name and subtitle
             modalPlayerName.textContent = name;
             modalPlayerSubtitle.textContent = `${position ? position + ' ' : ''}${number ? '#' + number : ''}`;
             
-            // Body with specific info only
             let infoRows = [];
-            
             if (number) infoRows.push({ label: 'Number', value: '#' + number });
             if (position) infoRows.push({ label: 'Position', value: position });
             if (height) infoRows.push({ label: 'Height', value: height });
@@ -848,67 +1792,33 @@
             
             modal.classList.add('active');
         }
-        
+
         function closePlayerModal() {
             const modal = document.getElementById('playerModal');
             modal.classList.remove('active');
         }
-        
-        function render() {
-            updateBreadcrumb();
-            const grid = document.getElementById('mainGrid');
-            let panels = [];
-            
-            panels.push(createPanel('Sports', renderSports(), '🏅', state.sports.length, 'sports'));
-            
-            if (state.selectedSport) {
-                panels.push(createPanel('Leagues', renderLeagues(), '🏆', state.leagues.length, 'leagues'));
-            }
-            
-            if (state.selectedLeague) {
-                panels.push(createPanel('Markets', renderMarkets(), '📊', state.markets.length, 'markets'));
-                panels.push(createPanel('Futures', renderFutures(), '🔮', state.futures.length, 'futures'));
-                panels.push(createPanel('Teams', renderTeams(), '👥', state.teams.length, 'teams'));
-            }
-            
-            if (state.selectedTeam) {
-                panels.push(createPanel('Players', renderPlayers(), '⚽', state.players.length, 'players'));
-            }
-            
-            grid.innerHTML = panels.join('');
-        }
-        
-        function showError(message) {
-            const grid = document.getElementById('mainGrid');
-            grid.innerHTML = `<div class="error">${message}</div>`;
-        }
-        
-        async function copyToClipboard(dataType) {
+
+        async function copyToClipboard(dataType, event) {
             let textToCopy = '';
             
             switch(dataType) {
                 case 'sports':
-                    textToCopy = state.sports.map(s => `${s.title || s.name} (${s.key})`).join('\n');
+                    textToCopy = baseState.sports.map(s => s.title || s.name || s.key).join('\n');
                     break;
                 case 'leagues':
-                    textToCopy = state.leagues.map(l => `${l.title || l.name} (${l.key})`).join('\n');
+                    textToCopy = baseState.leagues.map(l => l.title || l.name || l.key).join('\n');
                     break;
                 case 'markets':
-                    textToCopy = state.markets.map(m => `${m.title || m.name} - ${m.key || ''}`).join('\n');
+                    textToCopy = baseState.markets.map(m => m.title || m.name || 'Market').join('\n');
                     break;
                 case 'futures':
-                    textToCopy = state.futures.map(f => `${f.title || f.name} - ${f.key || ''}`).join('\n');
+                    textToCopy = baseState.futures.map(f => f.title || f.name || 'Future').join('\n');
                     break;
                 case 'teams':
-                    textToCopy = state.teams.map(t => `${t.name || t.team_name} (ID: ${t.id || t.team_id})`).join('\n');
+                    textToCopy = baseState.teams.map(t => t.name || t.team_name || 'Team').join('\n');
                     break;
                 case 'players':
-                    textToCopy = state.players.map(p => {
-                        const name = p.name || p.full_name || 'Player';
-                        const pos = p.position || p.pos || '';
-                        const num = p.jersey_number || p.number || '';
-                        return `${name}${pos ? ' - ' + pos : ''}${num ? ' #' + num : ''}`;
-                    }).join('\n');
+                    textToCopy = baseState.players.map(p => p.name || p.full_name || p.player_name || 'Player').join('\n');
                     break;
             }
             
@@ -928,9 +1838,1189 @@
                 alert('Error copying: ' + err.message);
             }
         }
-        
-        // Inicializar
-        loadSports();
+
+        // ==========================================
+        // ADVANCED TAB - GENERAL FUNCTIONS
+        // ==========================================
+
+        async function loadAdvancedData() {
+            try {
+                const sportsData = await fetchAPI('/api/v3/sports');
+                advancedState.sports = extractData(sportsData);
+                populateAdvancedFilters();
+            } catch (error) {
+                console.error('Error loading advanced data:', error);
+            }
+        }
+
+        function populateAdvancedFilters() {
+            const sportSelect = document.getElementById('adv-sport');
+            
+            if (!advancedState.sports || advancedState.sports.length === 0) {
+                sportSelect.innerHTML = '<option value="">No sports available</option>';
+                return;
+            }
+            
+            const sortedSports = [...advancedState.sports].sort((a, b) => {
+                const nameA = (a.title || a.name || '').toLowerCase();
+                const nameB = (b.title || b.name || '').toLowerCase();
+                
+                if (nameA.includes('soccer') || nameA.includes('football')) return -1;
+                if (nameB.includes('soccer') || nameB.includes('football')) return 1;
+                
+                return nameA.localeCompare(nameB);
+            });
+            
+            sportSelect.innerHTML = '<option value="">Select Sport</option>' +
+                sortedSports.map(sport => {
+                    const name = sport.title || sport.name || sport.key;
+                    const key = sport.key || sport.id;
+                    return `<option value="${key}">${name}</option>`;
+                }).join('');
+            
+            sportSelect.addEventListener('change', async (e) => {
+                const sportKey = e.target.value;
+                const leagueSelect = document.getElementById('adv-league');
+                
+                if (!sportKey) {
+                    leagueSelect.innerHTML = '<option value="">Select League</option>';
+                    return;
+                }
+                
+                leagueSelect.innerHTML = '<option value="">Loading leagues...</option>';
+                
+                try {
+                    const data = await fetchAPI(`/api/v3/leagues?sport=${sportKey}`);
+                    advancedState.leagues = extractData(data);
+                    
+                    if (advancedState.leagues.length === 0) {
+                        leagueSelect.innerHTML = '<option value="">No leagues available</option>';
+                        return;
+                    }
+                    
+                    leagueSelect.innerHTML = '<option value="">Select League</option>' +
+                        advancedState.leagues.map(league => {
+                            const name = league.title || league.name || league.key;
+                            const key = league.key || league.id;
+                            return `<option value="${key}">${name}</option>`;
+                        }).join('');
+                } catch (error) {
+                    console.error('Error loading leagues:', error);
+                    leagueSelect.innerHTML = '<option value="">Error loading leagues</option>';
+                }
+            });
+        }
+
+        // ==========================================
+        // FIXTURES & ODDS FUNCTIONS
+        // ==========================================
+
+        async function searchFixtures() {
+            const sport = document.getElementById('adv-sport').value;
+            const league = document.getElementById('adv-league').value;
+            const dateAfter = document.getElementById('adv-date-after').value;
+            const dateBefore = document.getElementById('adv-date-before').value;
+            
+            if (!sport) {
+                alert('Please select a sport');
+                return;
+            }
+            
+            if (!league) {
+                alert('Please select a league');
+                return;
+            }
+            
+            let endpoint = `/api/v3/fixtures?sport=${sport}&league=${league}`;
+            
+            if (dateAfter) {
+                const dateAfterISO = new Date(dateAfter).toISOString();
+                endpoint += `&start_date_after=${dateAfterISO}`;
+            }
+            
+            if (dateBefore) {
+                const dateBeforeISO = new Date(dateBefore).toISOString();
+                endpoint += `&start_date_before=${dateBeforeISO}`;
+            }
+            
+            console.log('🔍 Searching fixtures:', endpoint);
+            
+            const container = document.getElementById('fixtures-container');
+            container.innerHTML = '<div class="loading">Loading fixtures</div>';
+            
+            try {
+                const data = await fetchAPI(endpoint);
+                advancedState.fixtures = extractData(data);
+                
+                advancedState.fixtures.sort((a, b) => {
+                    const dateA = new Date(a.start_date);
+                    const dateB = new Date(b.start_date);
+                    return dateA - dateB;
+                });
+                
+                console.log('✅ Total fixtures:', advancedState.fixtures.length);
+                renderFixtures();
+            } catch (error) {
+                console.error('❌ Error loading fixtures:', error);
+                container.innerHTML = `<div class="error">Error loading fixtures: ${error.message}</div>`;
+            }
+        }
+
+        function renderFixtures() {
+            const container = document.getElementById('fixtures-container');
+            
+            if (!advancedState.fixtures.length) {
+                container.innerHTML = '<div class="empty">No fixtures found</div>';
+                return;
+            }
+            
+            const exportButtons = `
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button class="btn-primary" onclick="exportFixtures('csv')">
+                        📥 Export CSV
+                    </button>
+                    <button class="btn-primary" onclick="exportFixtures('json')">
+                        📥 Export JSON
+                    </button>
+                    <button class="copy-btn" onclick="copyFixturesList(event)">
+                        📋 Copy List
+                    </button>
+                </div>
+            `;
+            
+            container.innerHTML = exportButtons + advancedState.fixtures.map(fixture => {
+                const homeTeam = fixture.home_competitors?.[0] || {};
+                const awayTeam = fixture.away_competitors?.[0] || {};
+                const status = fixture.status || 'unplayed';
+                const startDate = formatDate(fixture.start_date);
+                
+                return `
+                    <div class="fixture-card" onclick="viewFixtureOdds('${fixture.id}')">
+                        <div class="fixture-header">
+                            <div class="fixture-teams">
+                                <div class="team">
+                                    ${homeTeam.logo ? `<div class="team-logo"><img src="${homeTeam.logo}" alt="${homeTeam.name}"></div>` : ''}
+                                    <span class="team-name">${fixture.home_team_display || homeTeam.name}</span>
+                                </div>
+                                <span class="vs-separator">VS</span>
+                                <div class="team">
+                                    ${awayTeam.logo ? `<div class="team-logo"><img src="${awayTeam.logo}" alt="${awayTeam.name}"></div>` : ''}
+                                    <span class="team-name">${fixture.away_team_display || awayTeam.name}</span>
+                                </div>
+                            </div>
+                            <div class="fixture-meta">
+                                <span class="fixture-date">${startDate}</span>
+                                <span class="fixture-status status-${status}">${status}</span>
+                            </div>
+                        </div>
+                        <div class="fixture-info">
+                            <div class="fixture-info-item">
+                                <span>🏆</span>
+                                <span>${fixture.league?.name || 'N/A'}</span>
+                            </div>
+                            ${fixture.venue_name ? `
+                            <div class="fixture-info-item">
+                                <span>📍</span>
+                                <span>${fixture.venue_name}</span>
+                            </div>
+                            ` : ''}
+                            ${fixture.broadcast ? `
+                            <div class="fixture-info-item">
+                                <span>📺</span>
+                                <span>${fixture.broadcast}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function exportFixtures(format) {
+            if (!advancedState.fixtures || advancedState.fixtures.length === 0) {
+                alert('No fixtures to export');
+                return;
+            }
+            
+            const fixtures = advancedState.fixtures.map(f => ({
+                id: f.id,
+                home_team: f.home_team_display,
+                away_team: f.away_team_display,
+                start_date: f.start_date,
+                status: f.status,
+                league: f.league?.name || '',
+                sport: f.sport?.name || '',
+                venue: f.venue_name || '',
+                broadcast: f.broadcast || ''
+            }));
+            
+            let content, filename, mimeType;
+            
+            if (format === 'csv') {
+                const headers = Object.keys(fixtures[0]).join(',');
+                const rows = fixtures.map(f => Object.values(f).map(v => `"${v}"`).join(',')).join('\n');
+                content = headers + '\n' + rows;
+                filename = 'fixtures.csv';
+                mimeType = 'text/csv';
+            } else {
+                content = JSON.stringify(fixtures, null, 2);
+                filename = 'fixtures.json';
+                mimeType = 'application/json';
+            }
+            
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        async function copyFixturesList(event) {
+            const fixtures = advancedState.fixtures;
+            
+            if (!fixtures || fixtures.length === 0) {
+                alert('No fixtures to copy');
+                return;
+            }
+            
+            const text = fixtures.map(f => 
+                `${f.home_team_display} vs ${f.away_team_display} - ${formatDate(f.start_date)} - ${f.league?.name || 'N/A'}`
+            ).join('\n');
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            } catch (err) {
+                alert('Error copying: ' + err.message);
+            }
+        }
+
+        async function viewFixtureOdds(fixtureId) {
+            advancedState.currentFixture = fixtureId;
+            
+            document.getElementById('fixtures-container').style.display = 'none';
+            document.getElementById('odds-container').style.display = 'block';
+            
+            const oddsContent = document.getElementById('odds-content');
+            oddsContent.innerHTML = '<div class="loading">Loading odds</div>';
+            
+            try {
+                const data = await fetchAPI(`/api/v3/fixtures/odds?fixture_id=${fixtureId}`);
+                const fixtureData = Array.isArray(data) ? data[0] : 
+                                   Array.isArray(data?.data) ? data.data[0] : data;
+                
+                if (!fixtureData) {
+                    oddsContent.innerHTML = '<div class="error">No odds data available</div>';
+                    return;
+                }
+                
+                advancedState.selectedOdds = fixtureData.odds || [];
+                renderOdds(fixtureData);
+            } catch (error) {
+                oddsContent.innerHTML = `<div class="error">Error loading odds: ${error.message}</div>`;
+            }
+        }
+
+        function renderOdds(fixtureData) {
+            const oddsContent = document.getElementById('odds-content');
+            
+            const sportsbooks = [...new Set(advancedState.selectedOdds.map(o => o.sportsbook))];
+            
+            const sportsbookFilter = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <div class="sportsbook-filter" style="flex: 1;">
+                        ${sportsbooks.map(sb => `
+                            <div class="sportsbook-chip ${advancedState.selectedSportsbooks.includes(sb) ? 'active' : ''}" 
+                                 onclick="toggleSportsbook('${sb}')">
+                                ${sb}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="copy-btn" onclick="copyAllOdds(event)" style="margin-left: 15px;">
+                        📋 Copy All Odds
+                    </button>
+                </div>
+            `;
+            
+            let filteredOdds = advancedState.selectedOdds;
+            if (advancedState.selectedSportsbooks.length > 0) {
+                filteredOdds = advancedState.selectedOdds.filter(o => 
+                    advancedState.selectedSportsbooks.includes(o.sportsbook)
+                );
+            }
+            
+            const oddsByMarket = {};
+            filteredOdds.forEach(odd => {
+                const market = odd.market || 'Other';
+                if (!oddsByMarket[market]) {
+                    oddsByMarket[market] = [];
+                }
+                oddsByMarket[market].push(odd);
+            });
+            
+            const oddsHtml = Object.entries(oddsByMarket).map(([market, odds]) => {
+                const bestOdds = findBestOdds(odds);
+                
+                return `
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: #1e3c72; margin-bottom: 15px; font-size: 18px;">📊 ${market}</h3>
+                    <div class="odds-grid">
+                        ${renderOddsCards(odds, bestOdds)}
+                    </div>
+                </div>
+            `}).join('');
+            
+            oddsContent.innerHTML = `
+                <div class="panel">
+                    <h2 style="color: #1e3c72; margin-bottom: 20px;">
+                        ${fixtureData.home_team_display} vs ${fixtureData.away_team_display}
+                    </h2>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        ${formatDate(fixtureData.start_date)} • ${fixtureData.league?.name || 'N/A'}
+                    </p>
+                    ${sportsbookFilter}
+                    ${oddsHtml || '<div class="empty">No odds available</div>'}
+                </div>
+            `;
+        }
+
+        function findBestOdds(odds) {
+            const bestBySelection = {};
+            
+            odds.forEach(odd => {
+                const key = odd.name || odd.selection;
+                if (odd.price > 0) {
+                    if (!bestBySelection[key] || odd.price > bestBySelection[key].price) {
+                        bestBySelection[key] = odd;
+                    }
+                } else {
+                    if (!bestBySelection[key] || odd.price > bestBySelection[key].price) {
+                        bestBySelection[key] = odd;
+                    }
+                }
+            });
+            
+            return bestBySelection;
+        }
+
+        function renderOddsCards(odds, bestOdds = {}) {
+            const oddsBySportsbook = {};
+            odds.forEach(odd => {
+                if (!oddsBySportsbook[odd.sportsbook]) {
+                    oddsBySportsbook[odd.sportsbook] = [];
+                }
+                oddsBySportsbook[odd.sportsbook].push(odd);
+            });
+            
+            return Object.entries(oddsBySportsbook).map(([sportsbook, sbOdds]) => `
+                <div class="odds-card">
+                    <div class="odds-sportsbook">${sportsbook}</div>
+                    ${sbOdds.map(odd => {
+                        const isBest = bestOdds[odd.name || odd.selection]?.id === odd.id;
+                        const deepLink = odd.deep_link?.desktop || odd.deep_link?.ios || odd.deep_link?.android;
+                        
+                        return `
+                        <div class="odds-selection" style="${isBest ? 'border: 2px solid #28a745; background: #f0fff4;' : ''}">
+                            <div style="flex: 1;">
+                                <span class="odds-selection-name">
+                                    ${odd.name}
+                                    ${odd.points ? ` (${odd.points > 0 ? '+' : ''}${odd.points})` : ''}
+                                </span>
+                                ${odd.limits?.max ? `<div style="font-size: 10px; color: #999; margin-top: 2px;">Max: $${odd.limits.max}</div>` : ''}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="odds-price ${odd.price < 0 ? 'negative' : ''}" style="${isBest ? 'background: #28a745; box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);' : ''}">
+                                    ${isBest ? '⭐ ' : ''}${odd.price > 0 ? '+' : ''}${odd.price}
+                                </span>
+                                ${deepLink ? `
+                                    <a href="${deepLink}" target="_blank" style="background: #1e3c72; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; text-decoration: none; white-space: nowrap;">
+                                        🔗 Bet
+                                    </a>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `}).join('')}
+                </div>
+            `).join('');
+        }
+
+        async function copyAllOdds(event) {
+            const odds = advancedState.selectedOdds;
+            
+            if (!odds || odds.length === 0) {
+                alert('No odds to copy');
+                return;
+            }
+            
+            const oddsByMarket = {};
+            odds.forEach(odd => {
+                const market = odd.market || 'Other';
+                if (!oddsByMarket[market]) {
+                    oddsByMarket[market] = [];
+                }
+                oddsByMarket[market].push(odd);
+            });
+            
+            const fixture = advancedState.fixtures.find(f => f.id === advancedState.currentFixture);
+            let text = `${fixture?.home_team_display || 'Home'} vs ${fixture?.away_team_display || 'Away'}\n\n`;
+            
+            Object.entries(oddsByMarket).forEach(([market, marketOdds]) => {
+                text += `${market}:\n`;
+                marketOdds.forEach(odd => {
+                    text += `  ${odd.sportsbook}: ${odd.name} ${odd.price > 0 ? '+' : ''}${odd.price}`;
+                    if (odd.points) text += ` (${odd.points})`;
+                    text += '\n';
+                });
+                text += '\n';
+            });
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                btn.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '#28a745';
+                }, 2000);
+            } catch (err) {
+                alert('Error copying: ' + err.message);
+            }
+        }
+
+        function toggleSportsbook(sportsbook) {
+            const index = advancedState.selectedSportsbooks.indexOf(sportsbook);
+            if (index > -1) {
+                advancedState.selectedSportsbooks.splice(index, 1);
+            } else {
+                advancedState.selectedSportsbooks.push(sportsbook);
+            }
+            
+            const fixtureData = advancedState.fixtures.find(f => f.id === advancedState.currentFixture);
+            if (fixtureData) {
+                renderOdds({ ...fixtureData, odds: advancedState.selectedOdds });
+            }
+        }
+
+        function backToFixtures() {
+            document.getElementById('fixtures-container').style.display = 'block';
+            document.getElementById('odds-container').style.display = 'none';
+            advancedState.selectedSportsbooks = [];
+        }
+
+        // ==========================================
+        // RESULTS & GRADER FUNCTIONS
+        // ==========================================
+
+        function populateResultsFilters() {
+            const sportSelect = document.getElementById('results-sport');
+            const leagueSelect = document.getElementById('results-league');
+            
+            if (!advancedState.sports || advancedState.sports.length === 0) {
+                sportSelect.innerHTML = '<option value="">No sports available</option>';
+                return;
+            }
+            
+            const sortedSports = [...advancedState.sports].sort((a, b) => {
+                const nameA = (a.title || a.name || '').toLowerCase();
+                const nameB = (b.title || b.name || '').toLowerCase();
+                
+                if (nameA.includes('soccer') || nameA.includes('football')) return -1;
+                if (nameB.includes('soccer') || nameB.includes('football')) return 1;
+                
+                return nameA.localeCompare(nameB);
+            });
+            
+            sportSelect.innerHTML = '<option value="">Select Sport</option>' +
+                sortedSports.map(sport => {
+                    const name = sport.title || sport.name || sport.key;
+                    const key = sport.key || sport.id;
+                    return `<option value="${key}">${name}</option>`;
+                }).join('');
+            
+            sportSelect.addEventListener('change', async (e) => {
+                const sportKey = e.target.value;
+                
+                if (!sportKey) {
+                    leagueSelect.innerHTML = '<option value="">Select League</option>';
+                    return;
+                }
+                
+                leagueSelect.innerHTML = '<option value="">Loading leagues...</option>';
+                
+                try {
+                    const data = await fetchAPI(`/api/v3/leagues?sport=${sportKey}`);
+                    const leagues = extractData(data);
+                    
+                    if (leagues.length === 0) {
+                        leagueSelect.innerHTML = '<option value="">No leagues available</option>';
+                        return;
+                    }
+                    
+                    leagueSelect.innerHTML = '<option value="">Select League</option>' +
+                        leagues.map(league => {
+                            const name = league.title || league.name || league.key;
+                            const key = league.key || league.id;
+                            return `<option value="${key}">${name}</option>`;
+                        }).join('');
+                } catch (error) {
+                    console.error('Error loading leagues:', error);
+                    leagueSelect.innerHTML = '<option value="">Error loading leagues</option>';
+                }
+            });
+        }
+
+        async function searchCompletedFixtures() {
+            const sport = document.getElementById('results-sport').value;
+            const league = document.getElementById('results-league').value;
+            
+            if (!sport) {
+                alert('Please select a sport');
+                return;
+            }
+            
+            if (!league) {
+                alert('Please select a league');
+                return;
+            }
+            
+            const container = document.getElementById('results-fixtures-container');
+            container.innerHTML = '<div class="loading">Loading completed fixtures</div>';
+            
+            try {
+                const endpoint = `/api/v3/fixtures?sport=${sport}&league=${league}`;
+                const data = await fetchAPI(endpoint);
+                let fixtures = extractData(data);
+                
+                // Filter only completed fixtures
+                advancedState.completedFixtures = fixtures.filter(f => 
+                    f.status === 'complete' || f.status === 'completed' || f.status === 'final'
+                );
+                
+                // Sort by most recent first
+                advancedState.completedFixtures.sort((a, b) => {
+                    const dateA = new Date(a.start_date);
+                    const dateB = new Date(b.start_date);
+                    return dateB - dateA;
+                });
+                
+                renderCompletedFixtures();
+            } catch (error) {
+                container.innerHTML = `<div class="error">Error loading fixtures: ${error.message}</div>`;
+            }
+        }
+
+        function renderCompletedFixtures() {
+            const container = document.getElementById('results-fixtures-container');
+            
+            if (!advancedState.completedFixtures.length) {
+                container.innerHTML = '<div class="empty">No completed fixtures found</div>';
+                return;
+            }
+            
+            container.innerHTML = advancedState.completedFixtures.map(fixture => {
+                const homeTeam = fixture.home_competitors?.[0] || {};
+                const awayTeam = fixture.away_competitors?.[0] || {};
+                const result = fixture.result;
+                const homeScore = result?.home_score || 0;
+                const awayScore = result?.away_score || 0;
+                const startDate = formatDate(fixture.start_date);
+                
+                return `
+                    <div class="result-card">
+                        <div class="fixture-header">
+                            <div class="fixture-teams">
+                                <div class="team">
+                                    ${homeTeam.logo ? `<div class="team-logo"><img src="${homeTeam.logo}" alt="${homeTeam.name}"></div>` : ''}
+                                    <span class="team-name">${fixture.home_team_display || homeTeam.name}</span>
+                                </div>
+                                <div class="result-score">${homeScore} - ${awayScore}</div>
+                                <div class="team">
+                                    ${awayTeam.logo ? `<div class="team-logo"><img src="${awayTeam.logo}" alt="${awayTeam.name}"></div>` : ''}
+                                    <span class="team-name">${fixture.away_team_display || awayTeam.name}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fixture-info">
+                            <div class="fixture-info-item">
+                                <span>📅</span>
+                                <span>${startDate}</span>
+                            </div>
+                            <div class="fixture-info-item">
+                                <span>🏆</span>
+                                <span>${fixture.league?.name || 'N/A'}</span>
+                            </div>
+                            <div class="fixture-info-item">
+                                <span>✅</span>
+                                <span>${fixture.status}</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" style="margin-top: 15px; width: 100%;" onclick="openGrader('${fixture.id}', '${fixture.sport?.id || ''}', '${fixture.league?.id || ''}')">
+                            🎯 Grade a Bet for this Fixture
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openGrader(fixtureId, sport, league) {
+            advancedState.currentFixture = fixtureId;
+            
+            // Store fixture info
+            const fixture = advancedState.completedFixtures.find(f => f.id === fixtureId);
+            advancedState.currentFixtureSport = sport;
+            advancedState.currentFixtureLeague = league;
+            advancedState.currentFixtureData = fixture;
+            
+            document.getElementById('results-fixtures-container').style.display = 'none';
+            document.getElementById('grader-section').style.display = 'block';
+        }
+
+        async function gradeBet() {
+            const market = document.getElementById('grader-market').value;
+            const name = document.getElementById('grader-name').value;
+            const playerId = document.getElementById('grader-player-id').value;
+            
+            if (!market) {
+                alert('Please enter a market');
+                return;
+            }
+            
+            if (!name) {
+                alert('Please enter a selection/name');
+                return;
+            }
+            
+            const resultContainer = document.getElementById('grader-result-container');
+            resultContainer.innerHTML = '<div class="loading">Grading bet</div>';
+            
+            try {
+                let endpoint = `/api/v3/grader/odds?sport=${advancedState.currentFixtureSport}&league=${advancedState.currentFixtureLeague}&fixture_id=${advancedState.currentFixture}&market=${encodeURIComponent(market)}&name=${encodeURIComponent(name)}`;
+                
+                if (playerId) {
+                    endpoint += `&player_id=${playerId}`;
+                }
+                
+                const data = await fetchAPI(endpoint);
+                const gradeData = Array.isArray(data) ? data[0] : 
+                                 Array.isArray(data?.data) ? data.data[0] : data;
+                
+                renderGradeResult(gradeData);
+            } catch (error) {
+                resultContainer.innerHTML = `<div class="error">Error grading bet: ${error.message}</div>`;
+            }
+        }
+
+        function renderGradeResult(gradeData) {
+            const result = gradeData.result || 'Unknown';
+            const resultClass = result.toLowerCase();
+            
+            const container = document.getElementById('grader-result-container');
+            container.innerHTML = `
+                <div class="grader-result ${resultClass}">
+                    <div class="text-center">
+                        <div class="result-badge ${resultClass}">
+                            ${result === 'Won' || result === 'Win' ? '🎉 WIN' : 
+                              result === 'Lost' || result === 'Loss' ? '❌ LOSS' : 
+                              '🔄 PUSH'}
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">Fixture:</div>
+                        <div class="info-value">${gradeData.home_team_display} vs ${gradeData.away_team_display}</div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">Market:</div>
+                        <div class="info-value">${gradeData.market}</div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">Selection:</div>
+                        <div class="info-value">${gradeData.name}</div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">Status:</div>
+                        <div class="info-value">${gradeData.status}</div>
+                    </div>
+                    
+                    ${gradeData.home_score !== null && gradeData.away_score !== null ? `
+                    <div class="info-row">
+                        <div class="info-label">Final Score:</div>
+                        <div class="info-value">${gradeData.home_score} - ${gradeData.away_score}</div>
+                    </div>
+                    ` : ''}
+                    
+                    ${gradeData.player_score !== null ? `
+                    <div class="info-row">
+                        <div class="info-label">Player Score:</div>
+                        <div class="info-value">${gradeData.player_score}</div>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="info-row">
+                        <div class="info-label">Result:</div>
+                        <div class="info-value ${resultClass === 'win' ? 'success-text' : resultClass === 'loss' ? 'error-text' : ''}" style="font-size: 20px; font-weight: 700;">
+                            ${result}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function backToResults() {
+            document.getElementById('results-fixtures-container').style.display = 'block';
+            document.getElementById('grader-section').style.display = 'none';
+            document.getElementById('grader-result-container').innerHTML = '';
+            document.getElementById('grader-market').value = '';
+            document.getElementById('grader-name').value = '';
+            document.getElementById('grader-player-id').value = '';
+        }
+
+        // ==========================================
+        // FUTURES & OUTRIGHTS FUNCTIONS
+        // ==========================================
+
+        function populateFuturesFilters() {
+            const sportSelect = document.getElementById('futures-sport');
+            const leagueSelect = document.getElementById('futures-league');
+            
+            if (!advancedState.sports || advancedState.sports.length === 0) {
+                sportSelect.innerHTML = '<option value="">No sports available</option>';
+                return;
+            }
+            
+            const sortedSports = [...advancedState.sports].sort((a, b) => {
+                const nameA = (a.title || a.name || '').toLowerCase();
+                const nameB = (b.title || b.name || '').toLowerCase();
+                
+                if (nameA.includes('soccer') || nameA.includes('football')) return -1;
+                if (nameB.includes('soccer') || nameB.includes('football')) return 1;
+                
+                return nameA.localeCompare(nameB);
+            });
+            
+            sportSelect.innerHTML = '<option value="">Select Sport</option>' +
+                sortedSports.map(sport => {
+                    const name = sport.title || sport.name || sport.key;
+                    const key = sport.key || sport.id;
+                    return `<option value="${key}">${name}</option>`;
+                }).join('');
+            
+            sportSelect.addEventListener('change', async (e) => {
+                const sportKey = e.target.value;
+                
+                if (!sportKey) {
+                    leagueSelect.innerHTML = '<option value="">Select League</option>';
+                    return;
+                }
+                
+                leagueSelect.innerHTML = '<option value="">Loading leagues...</option>';
+                
+                try {
+                    const data = await fetchAPI(`/api/v3/leagues?sport=${sportKey}`);
+                    const leagues = extractData(data);
+                    
+                    if (leagues.length === 0) {
+                        leagueSelect.innerHTML = '<option value="">No leagues available</option>';
+                        return;
+                    }
+                    
+                    leagueSelect.innerHTML = '<option value="">Select League</option>' +
+                        leagues.map(league => {
+                            const name = league.title || league.name || league.key;
+                            const key = league.key || league.id;
+                            return `<option value="${key}">${name}</option>`;
+                        }).join('');
+                } catch (error) {
+                    console.error('Error loading leagues:', error);
+                    leagueSelect.innerHTML = '<option value="">Error loading leagues</option>';
+                }
+            });
+        }
+
+        async function searchFutures() {
+            const sport = document.getElementById('futures-sport').value;
+            const league = document.getElementById('futures-league').value;
+            
+            if (!sport) {
+                alert('Please select a sport');
+                return;
+            }
+            
+            if (!league) {
+                alert('Please select a league');
+                return;
+            }
+            
+            const container = document.getElementById('futures-container');
+            container.innerHTML = '<div class="loading">Loading futures</div>';
+            
+            try {
+                const data = await fetchAPI(`/api/v3/futures?league=${league}`);
+                advancedState.futuresData = extractData(data);
+                
+                renderFutures();
+            } catch (error) {
+                container.innerHTML = `<div class="error">Error loading futures: ${error.message}</div>`;
+            }
+        }
+
+        function renderFutures() {
+            const container = document.getElementById('futures-container');
+            
+            if (!advancedState.futuresData.length) {
+                container.innerHTML = '<div class="empty">No futures found for this league</div>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button class="copy-btn" onclick="copyFuturesList(event)">
+                        📋 Copy Futures List
+                    </button>
+                </div>
+                <div class="futures-grid">
+                    ${advancedState.futuresData.map(future => {
+                        const title = future.title || future.name || future.market || 'Future Market';
+                        const description = future.description || '';
+                        
+                        return `
+                            <div class="future-card">
+                                <div class="future-title">${title}</div>
+                                ${description ? `<p style="font-size: 12px; color: #666; margin-bottom: 15px;">${description}</p>` : ''}
+                                <div class="empty" style="padding: 20px;">
+                                    Select this future to view odds from different sportsbooks
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        async function copyFuturesList(event) {
+            const futures = advancedState.futuresData;
+            
+            if (!futures || futures.length === 0) {
+                alert('No futures to copy');
+                return;
+            }
+            
+            const text = futures.map(f => 
+                `${f.title || f.name || 'Future'}${f.description ? ' - ' + f.description : ''}`
+            ).join('\n');
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            } catch (err) {
+                alert('Error copying: ' + err.message);
+            }
+        }
+
+        // ==========================================
+        // PARLAY BUILDER FUNCTIONS
+        // ==========================================
+
+        function loadParlaySection() {
+            renderParlaySelections();
+            updateParlayCount();
+        }
+
+        function renderParlaySelections() {
+            const container = document.getElementById('parlay-selections');
+            
+            if (!advancedState.parlaySelections.length) {
+                container.innerHTML = '<div class="empty">Add selections from Fixtures & Odds section</div>';
+                document.getElementById('parlay-calculator-section').style.display = 'none';
+                return;
+            }
+            
+            container.innerHTML = advancedState.parlaySelections.map((sel, index) => `
+                <div class="selection-item">
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 5px;">${sel.fixture}</div>
+                        <div style="font-size: 12px; color: #666;">${sel.market}: ${sel.name}</div>
+                        <div style="font-size: 14px; font-weight: 700; color: #1e3c72; margin-top: 5px;">${sel.price > 0 ? '+' : ''}${sel.price}</div>
+                    </div>
+                    <button class="btn-danger" onclick="removeFromParlay(${index})">Remove</button>
+                </div>
+            `).join('');
+            
+            document.getElementById('parlay-calculator-section').style.display = 'block';
+            
+            // Populate sportsbooks for parlay calculation
+            const sportsbooksDiv = document.getElementById('parlay-sportsbooks-select');
+            const commonSportsbooks = ['DraftKings', 'FanDuel', 'BetMGM', 'Caesars', 'BetRivers'];
+            sportsbooksDiv.innerHTML = commonSportsbooks.map(sb => `
+                <div class="sportsbook-chip" onclick="toggleParlaySportsbook('${sb}')">
+                    ${sb}
+                </div>
+            `).join('');
+        }
+
+        function addToParlay(fixtureId, fixtureName, market, name, price) {
+            advancedState.parlaySelections.push({
+                fixture_id: fixtureId,
+                fixture: fixtureName,
+                market: market,
+                name: name,
+                price: price
+            });
+            
+            updateParlayCount();
+            
+            if (advancedState.currentSection === 'parlay') {
+                renderParlaySelections();
+            }
+        }
+
+        function removeFromParlay(index) {
+            advancedState.parlaySelections.splice(index, 1);
+            updateParlayCount();
+            renderParlaySelections();
+        }
+
+        function clearParlay() {
+            advancedState.parlaySelections = [];
+            advancedState.selectedParlaySportsbooks = [];
+            updateParlayCount();
+            renderParlaySelections();
+            document.getElementById('parlay-results-container').innerHTML = '';
+        }
+
+        function updateParlayCount() {
+            const countEl = document.getElementById('parlay-count');
+            if (countEl) {
+                countEl.textContent = advancedState.parlaySelections.length;
+            }
+        }
+
+        function toggleParlaySportsbook(sportsbook) {
+            if (!advancedState.selectedParlaySportsbooks) {
+                advancedState.selectedParlaySportsbooks = [];
+            }
+            
+            const index = advancedState.selectedParlaySportsbooks.indexOf(sportsbook);
+            if (index > -1) {
+                advancedState.selectedParlaySportsbooks.splice(index, 1);
+                event.target.classList.remove('active');
+            } else {
+                advancedState.selectedParlaySportsbooks.push(sportsbook);
+                event.target.classList.add('active');
+            }
+        }
+
+        async function calculateParlay() {
+            if (!advancedState.parlaySelections.length) {
+                alert('Please add selections to your parlay');
+                return;
+            }
+            
+            if (!advancedState.selectedParlaySportsbooks || !advancedState.selectedParlaySportsbooks.length) {
+                alert('Please select at least one sportsbook');
+                return;
+            }
+            
+            const container = document.getElementById('parlay-results-container');
+            container.innerHTML = '<div class="loading">Calculating parlay odds</div>';
+            
+            try {
+                const payload = {
+                    sportsbooks: advancedState.selectedParlaySportsbooks,
+                    entries: advancedState.parlaySelections.map(sel => ({
+                        fixture_id: sel.fixture_id,
+                        market: sel.market,
+                        name: sel.name,
+                        price_american: sel.price
+                    }))
+                };
+                
+                const data = await postAPI('/api/v3/parlay/odds', payload);
+                renderParlayResults(data);
+            } catch (error) {
+                container.innerHTML = `<div class="error">Error calculating parlay: ${error.message}</div>`;
+            }
+        }
+
+        function renderParlayResults(data) {
+            const container = document.getElementById('parlay-results-container');
+            
+            if (!data || !data.data) {
+                container.innerHTML = '<div class="error">No parlay results available</div>';
+                return;
+            }
+            
+            const results = data.data;
+            
+            container.innerHTML = Object.entries(results).map(([sportsbook, result]) => {
+                if (result.error) {
+                    return `
+                        <div class="parlay-calculator" style="border-color: #dc3545;">
+                            <h3 style="color: #dc3545; margin-bottom: 15px;">${sportsbook}</h3>
+                            <div class="error">${result.error}</div>
+                        </div>
+                    `;
+                }
+                
+                const price = result.price || 0;
+                const legs = result.legs || [];
+                
+                return `
+                    <div class="parlay-calculator">
+                        <h3 style="color: #1e3c72; margin-bottom: 15px;">${sportsbook}</h3>
+                        
+                        <div class="parlay-odds-display">
+                            ${price > 0 ? '+' : ''}${price}
+                        </div>
+                        
+                        <div style="margin: 20px 0;">
+                            <h4 style="color: #666; margin-bottom: 10px;">Legs:</h4>
+                            ${legs.map(leg => `
+                                <div style="padding: 8px; background: #f8f9fa; border-radius: 4px; margin-bottom: 5px; font-size: 12px;">
+                                    ${leg.market}: ${leg.name} (${leg.price > 0 ? '+' : ''}${leg.price})
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="payout-calculator">
+                            <div class="calc-box">
+                                <div class="calc-label">$10 Bet Pays</div>
+                                <div class="calc-value">$${calculatePayout(10, price).toFixed(2)}</div>
+                            </div>
+                            <div class="calc-box">
+                                <div class="calc-label">$100 Bet Pays</div>
+                                <div class="calc-value">$${calculatePayout(100, price).toFixed(2)}</div>
+                            </div>
+                        </div>
+                        
+                        ${result.deep_link_urls?.desktop ? `
+                            <a href="${result.deep_link_urls.desktop}" target="_blank" class="btn-primary" style="display: block; text-align: center; text-decoration: none; margin-top: 20px;">
+                                🔗 Place Bet on ${sportsbook}
+                            </a>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function calculatePayout(stake, odds) {
+            if (odds > 0) {
+                return stake + (stake * odds / 100);
+            } else {
+                return stake + (stake * 100 / Math.abs(odds));
+            }
+        }
+
+        // ==========================================
+        // LIVE STREAM FUNCTIONS
+        // ==========================================
+
+        function populateStreamFilters() {
+            const sportSelect = document.getElementById('stream-sport');
+            
+            if (!advancedState.sports || advancedState.sports.length === 0) {
+                sportSelect.innerHTML = '<option value="">No sports available</option>';
+                return;
+            }
+            
+            const sortedSports = [...advancedState.sports].sort((a, b) => {
+                const nameA = (a.title || a.name || '').toLowerCase();
+                const nameB = (b.title || b.name || '').toLowerCase();
+                
+                if (nameA.includes('soccer') || nameA.includes('football')) return -1;
+                if (nameB.includes('soccer') || nameB.includes('football')) return 1;
+                
+                return nameA.localeCompare(nameB);
+            });
+            
+            sportSelect.innerHTML = '<option value="">Select Sport</option>' +
+                sortedSports.map(sport => {
+                    const name = sport.title || sport.name || sport.key;
+                    const key = sport.key || sport.id;
+                    return `<option value="${key}">${name}</option>`;
+                }).join('');
+        }
+
+        function startStream() {
+            const sport = document.getElementById('stream-sport').value;
+            
+            if (!sport) {
+                alert('Please select a sport');
+                return;
+            }
+            
+            // Note: SSE streaming requires special handling
+            // This is a placeholder implementation
+            alert('Live streaming feature requires Server-Sent Events (SSE) support.\n\nThis feature connects to:\n/api/v3/stream/odds/' + sport + '\n\nImplementation requires additional server configuration.');
+            
+            // Show simulated live status
+            document.getElementById('stream-status').style.display = 'flex';
+            advancedState.streamActive = true;
+            
+            // Simulate some updates
+            simulateStreamUpdates();
+        }
+
+        function stopStream() {
+            if (advancedState.streamConnection) {
+                advancedState.streamConnection.close();
+            }
+            
+            document.getElementById('stream-status').style.display = 'none';
+            advancedState.streamActive = false;
+            
+            const container = document.getElementById('stream-container');
+            container.innerHTML = '<div class="empty">Stream stopped. Configure filters and click "Start Stream" to begin monitoring</div>';
+        }
+
+        function simulateStreamUpdates() {
+            const container = document.getElementById('stream-container');
+            container.innerHTML = '<div class="empty">Waiting for live updates...</div>';
+            
+            // This is just a simulation - real implementation would use EventSource
+            setTimeout(() => {
+                if (advancedState.streamActive) {
+                    container.innerHTML = `
+                        <div class="odds-update">
+                            <strong>Odds Update</strong> - DraftKings
+                            <br>Lakers Moneyline: <span class="odds-change-up">-110 → -105 ↑</span>
+                        </div>
+                        <div class="odds-update">
+                            <strong>Odds Update</strong> - FanDuel
+                            <br>Total Points Over 215.5: <span class="odds-change-down">-110 → -115 ↓</span>
+                        </div>
+                    `;
+                }
+            }, 2000);
+        }
+
+        // Initialize Base tab on load
+        loadBaseSports();
     </script>
 </body>
 </html>
